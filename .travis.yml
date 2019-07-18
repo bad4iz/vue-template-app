@@ -1,0 +1,21 @@
+language: node_js
+node_js: '8'
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+
+install:
+  - yarn --frozen-lockfile --non-interactive
+  - yarn run build
+before_deploy: "echo 'ready?'"
+deploy:
+  provider: heroku
+  api_key:
+    master: $HEROKU_TOKEN
+    production: $HEROKU_TOKEN
+  app:
+    master: fiesta-staging
+    production: fiesta-production
