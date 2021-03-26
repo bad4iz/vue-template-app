@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import * as getters from './getters';
 import * as actions from './actions';
 import * as mutations from './mutations';
+import * as modules from './modules';
 import state from './state';
 
 Vue.use(Vuex);
@@ -12,6 +13,7 @@ const store = new Vuex.Store({
   getters,
   actions,
   mutations,
+  modules,
   /**
    * В строгом режиме любая попытка внесения изменений
    * в состояние Vuex, кроме мутаций, будет выбрасывать
@@ -23,7 +25,7 @@ const store = new Vuex.Store({
 
 if (module.hot) {
   module.hot.accept(
-    ['./getters', './actions', './mutations', './state'],
+    ['./getters', './actions', './mutations', './state', './modules'],
     () => {
       store.hotUpdate({
         // eslint-disable-next-line global-require
@@ -34,6 +36,7 @@ if (module.hot) {
         mutations: require('./mutations'),
         // eslint-disable-next-line global-require
         state: require('./state'),
+        modules: import('./modules'),
       });
     }
   );

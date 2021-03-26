@@ -1,5 +1,5 @@
-<template lang="pug">
-  v-navigation-drawer(
+<template>
+  <v-navigation-drawer
     v-model="getPrimaryDrawer.model"
     :permanent="getPrimaryDrawer.type == 'permanent'"
     :temporary="getPrimaryDrawer.type == 'temporary'"
@@ -10,49 +10,68 @@
     overflow
     touchless
     app
-  )
+  >
+    <v-system-bar></v-system-bar>
+    <v-toolbar flat class="transparent">
+      <v-list class="pa-0">
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPK0WS_2F91vdWHQZeCzqx309wPh6b3yBWtw&usqp=CAU"
+            ></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
+      </v-list>
+    </v-toolbar>
 
-    v-toolbar( flat class="transparent")
-      v-list( class="pa-0")
-        v-list-tile( avatar)
-          v-list-tile-avatar
-            img( src="@/assets/static/bubble.png")
-    v-toolbar( flat class="transparent")
-      h2 Какая твоя Fiesta ?
+    <v-toolbar flat class="transparent">
+      <h2>{{$appConfig.titleApp}}</h2>
+    </v-toolbar>
 
-    v-list.mb-5( dense )
-      v-divider
-      v-list-tile(
+    <v-list dense class="mb-5">
+      <v-divider />
+      <v-list-item
         v-for="route in routeNavigationDrawer"
         :to="route.to"
         :key="route.to"
-      )
-        v-list-tile-action
-          v-icon {{route.icon}}
-        v-list-tile-content
-          v-list-tile-title {{route.title}}
+      >
+        <v-list-item-action>
+          <v-icon>{{ route.icon }}</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-text="route.title" />
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
 
-    v-list( dense)
-      v-divider
-      v-subheader settings
-      v-list-tile(
+    <v-list dense>
+      <v-divider />
+      <v-subheader settings />
+      <v-list-item
         v-for="route in routeNavigationDrawerFooter"
         :to="route.to"
         :key="route.to"
-      )
-        v-list-tile-action
-          v-icon {{route.icon}}
-        v-list-tile-content
-          v-list-tile-title {{route.title}}
+      >
+        <v-list-item-action>
+          <v-icon>{{ route.icon }}</v-icon>
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title v-text="route.title" />
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex';
+  import { createNamespacedHelpers } from 'vuex';
 
-  import {
-    routeNavigationDrawer,
-    routeNavigationDrawerFooter,
-  } from '../router';
+  const {
+    mapGetters: mapGettersAppSettings,
+    mapActions: mapActionsAppSettings,
+  } = createNamespacedHelpers('appSettings');
+
+  import { routeNavigationDrawer, routeNavigationDrawerFooter } from '@/router';
 
   export default {
     name: 'NavigationDrawer',
@@ -62,7 +81,7 @@
       routeNavigationDrawerFooter,
     }),
     methods: {
-      ...mapActions([
+      ...mapActionsAppSettings([
         'toggleDarkAction',
         'setPrimaryDrawerAction',
 
@@ -74,7 +93,12 @@
     },
 
     computed: {
-      ...mapGetters(['getDark', 'getDrawers', 'getPrimaryDrawer', 'getFooter']),
+      ...mapGettersAppSettings([
+        'getDark',
+        'getDrawers',
+        'getPrimaryDrawer',
+        'getFooter',
+      ]),
     },
   };
 </script>

@@ -1,24 +1,25 @@
 module.exports = {
   root: true,
-
   env: {
     node: true,
   },
-
-  rules: {
-    'no-console': 'off',
-    'no-debugger': 'off',
-    'vue/no-v-html': 'error',
-    'vue/script-indent': ['error', 2, { baseIndent: 1 }],
-    'vue/eqeqeq': 'warning',
-    'vue/camelcase': 'warning',
-    'vue/comma-dangle': 'error',
-    'comma-dangle': ['error', 'always-multiline'],
-  },
-
+  extends: ['plugin:vue/essential', 'eslint:recommended', '@vue/prettier'],
   parserOptions: {
     parser: 'babel-eslint',
   },
-
-  extends: ['plugin:vue/strongly-recommended', '@vue/prettier'],
+  rules: {
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+  },
+  overrides: [
+    {
+      files: [
+        '**/__tests__/*.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ],
 };

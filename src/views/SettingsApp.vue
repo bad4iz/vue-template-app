@@ -18,7 +18,7 @@
               <span>Drawer</span>
               <v-radio-group
                 :value="getPrimaryDrawer.type"
-                @change="setPrimaryDrawerAction"
+                @change="(value)=>setPrimaryDrawerAction({type: value})"
                 column
               >
                 <v-radio
@@ -41,7 +41,7 @@
                 :value="getPrimaryDrawer.floating"
                 @change="
                   setPrimaryDrawerAction({
-                    floating: !getPrimaryDrawer.floating,
+                    floating: !getPrimaryDrawer.floating
                   })
                 "
                 label="Floating"
@@ -70,8 +70,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat>Cancel</v-btn>
-          <v-btn flat color="primary">Submit</v-btn>
+          <v-btn>Cancel</v-btn>
+          <v-btn color="primary">Submit</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -79,12 +79,17 @@
 </template>
 
 <script>
-  import { mapActions, mapGetters } from 'vuex';
+  import { createNamespacedHelpers } from 'vuex';
+
+  const {
+    mapGetters: mapGettersAppSettings,
+    mapActions: mapActionsAppSettings,
+  } = createNamespacedHelpers('appSettings');
 
   export default {
     name: 'SettingsApp',
     methods: {
-      ...mapActions([
+      ...mapActionsAppSettings([
         'toggleDarkAction',
         'setPrimaryDrawerAction',
         'setFooterAction',
@@ -92,7 +97,12 @@
     },
 
     computed: {
-      ...mapGetters(['getDark', 'getDrawers', 'getPrimaryDrawer', 'getFooter']),
+      ...mapGettersAppSettings([
+        'getDark',
+        'getDrawers',
+        'getPrimaryDrawer',
+        'getFooter',
+      ]),
     },
   };
 </script>

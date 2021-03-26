@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <p> типа сообщенияя</p>
+    <p>типа сообщенияя</p>
   </div>
 </template>
 
